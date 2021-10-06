@@ -1,5 +1,6 @@
 *{
     border: 1px solid black;
+    user-select: none;
 }
 body{
     font-size: 24px;
@@ -45,7 +46,10 @@ header{
     flex: 1;
     padding: 5px;
 }
-.display-book-cards{
+.display-game-cards{
+    display: flex;
+    gap: 5px;
     flex: 4;
     padding: 5px;
 }
+

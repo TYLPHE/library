@@ -18,17 +18,24 @@
     </header>
     <div class="main-area">
         <div class="add-book-area">
-            <label for="title">Book title:</label>
+            <label for="title">Game title:</label>
             <input type="text" id="title" required><br>
-            <label for="author">Author name:</label>
-            <input type="text" id="author" required><br>
-            <label for="read">I read the book</label>
-            <input type="checkbox" name="read" id="read"><br>
+
+            <label for="hours">Hours played:</label>
+            <input type="number" id="hours" required><br>
+
+            <label for="wish">Started game?:</label>
+            <input type="checkbox" name="wish" id="wish"><br>
+
+            <label for="clear">Game cleared?:</label>
+            <input type="checkbox" name="clear" id="clear"><br>
             <button id="submit">Submit</button>
         </div>
         <div class="TOC-and-cards">
-            <div class="TOC">Table of Contents</div>
-            <div class="display-book-cards">display-book-cards</div> 
+            <div class="TOC">Game List:</div>
+            <div class="display-game-cards">
+
+            </div> 
         </div>
     </div>
     <footer>
