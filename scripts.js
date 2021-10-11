@@ -55,8 +55,8 @@ function addGameToLibrary(){
 
 //post array into table
 function populateCard(){
+    removeCard(document.querySelector(`.display-game-cards`));
     let container;
-
     for(let i = 0; i < myLibrary.length; i++){
         //create a flex container
         container = document.createElement(`div`);
@@ -67,8 +67,7 @@ function populateCard(){
         let remove = document.createElement(`button`);
         remove.id = `remove`;
         remove.textContent = `remove`;
-        remove.addEventListener(`click`, removeCard);
-
+        remove.addEventListener(`click`, deleteCard);
 
         //populate container with stuff
         const content = document.createTextNode(
@@ -79,27 +78,45 @@ function populateCard(){
         //attach contents to container
         container.appendChild(content);
         container.appendChild(remove);
+        
+        //draw the containers into the page
+        document.querySelector(`.display-game-cards`).appendChild(container);
     }
+}
 
-    document.querySelector(`.display-game-cards`).appendChild(container);
+function removeCard(parent){
+    while (parent.firstChild){
+        parent.removeChild(parent.firstChild)
+    }
 }
 
 //populate the TOC
 function populateTOC(){
-    let container;
+    removeCard(document.querySelector(`.TOC`));
+     let container;
     for(let i = 0; i < myLibrary.length; i++){
         container = document.createElement(`div`);
-        container.className = `card-container`;
+        container.className = `TOC-container`;
+        container.id = `toc-${i+1}`;
         const content = document.createTextNode(
             `Game ${i+1}: ${myLibrary[i].title}`
         );
+
+        //attach contents to container 
         container.appendChild(content);
+
+        //draw TOC containers into the page
+        document.querySelector(`.TOC`).appendChild(container);
     }
-    document.querySelector(`.TOC`).appendChild(container);
+
 }
 
-function removeCard(){
-    let test = this.parentElement.id;
-    console.log(test);
-
+function deleteCard(){
+    let buttonParentID = this.parentElement.id;
+    // document.getElementById(buttonParentID).remove();
+    // document.getElementById(`toc-${buttonParentID}`).remove();
+    myLibrary.splice(buttonParentID-1, 1);
+    
+    populateCard();
+    populateTOC();
 }

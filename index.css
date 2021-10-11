@@ -1,6 +1,5 @@
 *{
     border: 1px solid black;
-    user-select: none;
 }
 body{
     font-size: 24px;
@@ -45,6 +44,21 @@ header{
 .add-book-area{
     flex: 1;
     padding: 5px;
+}
+.titles{
+    display:flex;
+}
+.TOC-title{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex:1;
+}
+.card-title{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex:4;
 }
 .display-game-cards{
     display: flex;
