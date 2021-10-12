@@ -27,15 +27,13 @@ function addGameToLibrary(){
     let hours = document.getElementById(`hours`).value;
 
     if(document.getElementById(`wish`).checked){
-        console.log('wished');
         wish = 'Started game.';
     }
     else{
         wish = `Have not started.`;
     }
 
-    if(document.getElementById(`clear`).checked){
-        console.log(`checked`)
+    if(document.getElementById(`clear-initial`).checked){
         clear = `Yes.`;
     }
     else{
@@ -63,21 +61,63 @@ function populateCard(){
         container.className = `card-container`; //for CSS purposes
         container.id = i+1; //id is reference to delete card
 
+        //populate container title
+        let contentTitleDiv = document.createElement(`div`)
+        let contentTitle = document.createTextNode(`${myLibrary[i].title}`);
+        contentTitleDiv.appendChild(contentTitle);
+
+        //populate container hours
+        let contentHoursDiv = document.createElement(`div`);
+        let contentHours = document.createTextNode(`Hours: ${myLibrary[i].hours}`);
+        contentHoursDiv.appendChild(contentHours);
+
+        //populate container started
+        let contentStartedDiv = document.createElement(`div`);
+        let contentStartedLabel = document.createElement(`label`);
+        contentStartedLabel.for = `wish`;
+        contentStartedLabel.textContent = `Started: `;
+        let contentStartedInput = document.createElement(`input`);
+        contentStartedInput.type = `checkbox`;
+        contentStartedInput.name = `wish`;
+        contentStartedInput.id = `wish`;
+        contentStartedDiv.appendChild(contentStartedLabel);contentStartedDiv.appendChild(contentStartedInput);
+        if(myLibrary[i].wish == `Started game.`){
+            contentStartedInput.checked = true;
+        }
+        contentStartedInput.addEventListener(`click`, updateStartedStatus);
+
+
+
+        //populate container cleared
+        let contentClearedDiv = document.createElement(`div`);
+        let contentClearedLabel = document.createElement(`label`);
+        contentClearedLabel.for = `clear`;
+        contentClearedLabel.textContent = `Cleared: `
+        let contentClearedInput = document.createElement(`input`);
+        contentClearedInput.type = `checkbox`;
+        contentClearedInput.name = `clear`;
+        contentClearedInput.id = `clear`;
+        contentClearedDiv.appendChild(contentClearedLabel);contentClearedDiv.appendChild(contentClearedInput);
+        if(myLibrary[i].clear == `Yes.`){
+            contentClearedInput.checked = true;
+        }
+        contentClearedInput.addEventListener(`click`, updateClearedStatus);
+
         //create a delete button in each container
+        let removeButtonDiv = document.createElement(`div`);
         let remove = document.createElement(`button`);
         remove.id = `remove`;
         remove.textContent = `remove`;
         remove.addEventListener(`click`, deleteCard);
+        removeButtonDiv.appendChild(remove);
 
-        //populate container with stuff
-        const content = document.createTextNode(
-            `Game ${i+1}: ${myLibrary[i].title} // ` +
-            `Hours played: ${myLibrary[i].hours} hours`
-        );
 
         //attach contents to container
-        container.appendChild(content);
-        container.appendChild(remove);
+        container.appendChild(contentTitleDiv);
+        container.appendChild(contentHoursDiv);
+        container.appendChild(contentStartedDiv);
+        container.appendChild(contentClearedDiv);
+        container.appendChild(removeButtonDiv);
         
         //draw the containers into the page
         document.querySelector(`.display-game-cards`).appendChild(container);
@@ -99,7 +139,7 @@ function populateTOC(){
         container.className = `TOC-container`;
         container.id = `toc-${i+1}`;
         const content = document.createTextNode(
-            `Game ${i+1}: ${myLibrary[i].title}`
+            `${i+1}: ${myLibrary[i].title}`
         );
 
         //attach contents to container 
@@ -111,12 +151,39 @@ function populateTOC(){
 
 }
 
+
+
+function updateStartedStatus(){
+    if(this.checked){
+        let buttonParentID = this.parentElement.parentElement.id-1;
+        console.log(buttonParentID);
+        myLibrary[buttonParentID].wish = `Started game.`;
+        console.table(myLibrary);
+    }
+    else{
+        let buttonParentID = this.parentElement.parentElement.id-1;
+        console.log(buttonParentID);
+        myLibrary[buttonParentID].wish = `Have not started.`;
+        console.table(myLibrary);
+    }
+}
+function updateClearedStatus(){
+    if(this.checked){
+        let buttonParentID = this.parentElement.parentElement.id-1;
+        console.log(buttonParentID);
+        myLibrary[buttonParentID].clear = `Yes.`;
+        console.table(myLibrary);
+    }
+    else{
+        let buttonParentID = this.parentElement.parentElement.id-1;
+        console.log(buttonParentID);
+        myLibrary[buttonParentID].clear = `No.`;
+        console.table(myLibrary);
+    }
+}
 function deleteCard(){
     let buttonParentID = this.parentElement.id;
-    // document.getElementById(buttonParentID).remove();
-    // document.getElementById(`toc-${buttonParentID}`).remove();
     myLibrary.splice(buttonParentID-1, 1);
-    
     populateCard();
     populateTOC();
 }

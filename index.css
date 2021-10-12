@@ -34,36 +34,48 @@ header{
     display:flex;
     flex: 4;
 }
+
+.add-book-area{
+    padding: 5px;
+}
+.TOC-column{
+    display:flex;
+    flex-direction: column;
+    flex:1;
+}
+.display-column{
+    display:flex;
+    flex-direction: column;
+    flex:4;
+}
+.TOC-title{
+    font-weight: bold;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
 .TOC{
     display: flex;
     flex-direction: column;
     padding: 5px;
-    width: 100%;
-    flex: 1;
-}
-.add-book-area{
-    flex: 1;
-    padding: 5px;
-}
-.titles{
-    display:flex;
-}
-.TOC-title{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    flex:1;
+    overflow: auto;
 }
 .card-title{
+    font-weight: bold;
     display:flex;
     justify-content: center;
     align-items: center;
-    flex:4;
 }
 .display-game-cards{
     display: flex;
-    gap: 5px;
-    flex: 4;
-    padding: 5px;
+    justify-content: center;
+    gap: 15px;
+    padding: 15px;
+    flex-wrap: wrap;
 }
-
+.card-container{
+    display:flex;
+    flex-direction: column;
+    width: 200px;
+    padding: 20px;
+}
