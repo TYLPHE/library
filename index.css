@@ -34,9 +34,21 @@ header{
     display:flex;
     flex: 4;
 }
-
-.add-book-area{
-    padding: 5px;
+.add-game-area{
+    display:flex;
+    flex-direction: column;
+    margin: 5px;
+    text-align: center;
+}
+.add-game-title{
+    text-align: center;
+    font-weight: bold;
+}
+#submit{
+    height: 50px;
+    font-weight: bold;
+    font-size: 30px;
+    margin: 10px;
 }
 .TOC-column{
     display:flex;
@@ -53,18 +65,34 @@ header{
     display:flex;
     justify-content: center;
     align-items: center;
+    background-color: ;
 }
 .TOC{
     display: flex;
     flex-direction: column;
     padding: 5px;
     overflow: auto;
+    gap:10px;
+}
+.TOC-container{
+    padding: 5px;
+}
+.card-titlebar{
+    display:flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
 }
 .card-title{
-    font-weight: bold;
     display:flex;
-    justify-content: center;
+    text-align: center;
     align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    padding: 10px;
+    height:150px;
+    overflow: auto;
 }
 .display-game-cards{
     display: flex;
@@ -76,6 +104,16 @@ header{
 .card-container{
     display:flex;
     flex-direction: column;
-    width: 200px;
+    justify-content: center;
+    width: 250px;
     padding: 20px;
+}
+.checkbox{
+    display: flex;
+    align-items: center;
+}
+input{
+    height: 30px;
+    font-size: large;
+    text-align: center;
 }

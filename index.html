@@ -17,27 +17,31 @@
         <div class="repo"></div>
     </header>
     <div class="main-area">
-        <div class="add-book-area">
-            <label for="title">Game title:</label>
-            <input type="text" id="title" required><br>
 
-            <label for="hours">Hours played:</label>
-            <input type="number" id="hours" required><br>
-
-            <label for="wish">Started game?:</label>
-            <input type="checkbox" name="wish" id="wish"><br>
-
-            <label for="clear">Game cleared?:</label>
-            <input type="checkbox" name="clear" id="clear-initial"><br>
-            <button id="submit">Submit</button>
-        </div>
         <div class="TOC-and-cards">
             <div class="TOC-column">
+                <div class="add-game-title">Add Game</div>
+                <div class="add-game-area">
+                    <label for="title">Game title:</label>
+                    <input type="text" id="title" required><br>
+        
+                    <label for="hours">Hours played:</label>
+                    <input type="number" id="hours" required><br>
+                    <div class="checkbox">
+                        <label for="wish">Started game?:</label>
+                        <input type="checkbox" name="wish" id="wish">
+                    </div>
+                    <div class="checkbox">
+                        <label for="clear">Game cleared?:</label>
+                        <input type="checkbox" name="clear" id="clear-initial">
+                    </div>
+                    <button id="submit">Submit</button>
+                </div>
                 <div class="TOC-title">Game list</div>
                 <div class="TOC"></div>
             </div>
             <div class="display-column">
-                <div class="card-title">Game Titles</div>
+                <div class="card-titlebar">Game Titles</div>
                 <div class="display-game-cards"></div>
             </div> 
         </div>

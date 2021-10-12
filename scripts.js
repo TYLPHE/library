@@ -1,4 +1,5 @@
 let myLibrary = [];
+let sortedTOC = [];
 class game {
     constructor(title, hours, wish, clear) {
         this.title = title;
@@ -9,6 +10,34 @@ class game {
             console.log(title);
         };
     }
+}
+
+loadArray();
+populateCard();
+populateTOC();
+
+//loadArray() if local storage exists
+function loadArray(){
+    ////add a few games to library by default if array is empty
+    if(myLibrary = JSON.parse(localStorage.getItem(`user-TYLPHE`)) !== null){
+        myLibrary = JSON.parse(localStorage.getItem(`user-TYLPHE`));
+    }
+    else if(localStorage.getItem(`user-TYLPHE`) == null){
+        myLibrary = [];
+        myLibrary[0] = new game(`Diablo II: Resurrected`, `50`, `Started game.`, `Yes.`);
+        myLibrary[1] = new game(`Monster Hunter Rise`, `350`, `Started game.`, `Yes.`);
+        myLibrary[2] = new game(`DJMAX Respect V`, `75`, `Started game.`, `No.`);
+        myLibrary[3] = new game(`Metroid Dread`, `0`, `Have not started.`, `No.`);
+    }
+    else{
+        return console.log(`Error with loadArray()`)
+    }
+}
+
+//saves array to local storage
+function saveArray(){
+    localStorage.setItem(`user-TYLPHE`, JSON.stringify(myLibrary));
+    console.log(`saved`);
 }
 
 //submit button adds adds to game list and card display
@@ -25,14 +54,12 @@ function addGameToLibrary(){
     //creates values for the constructor
     let title = document.getElementById(`title`).value;
     let hours = document.getElementById(`hours`).value;
-
     if(document.getElementById(`wish`).checked){
         wish = 'Started game.';
     }
     else{
         wish = `Have not started.`;
     }
-
     if(document.getElementById(`clear-initial`).checked){
         clear = `Yes.`;
     }
@@ -49,11 +76,15 @@ function addGameToLibrary(){
 
     //debug
     console.table(myLibrary);
+
+    //save submission to local storage
+    saveArray();
 }
 
 //post array into table
 function populateCard(){
     removeCard(document.querySelector(`.display-game-cards`));
+    sortArray();
     let container;
     for(let i = 0; i < myLibrary.length; i++){
         //create a flex container
@@ -62,7 +93,8 @@ function populateCard(){
         container.id = i+1; //id is reference to delete card
 
         //populate container title
-        let contentTitleDiv = document.createElement(`div`)
+        let contentTitleDiv = document.createElement(`div`);
+        contentTitleDiv.className = `card-title`;
         let contentTitle = document.createTextNode(`${myLibrary[i].title}`);
         contentTitleDiv.appendChild(contentTitle);
 
@@ -73,6 +105,7 @@ function populateCard(){
 
         //populate container started
         let contentStartedDiv = document.createElement(`div`);
+        contentStartedDiv.className = `checkbox`;
         let contentStartedLabel = document.createElement(`label`);
         contentStartedLabel.for = `wish`;
         contentStartedLabel.textContent = `Started: `;
@@ -86,10 +119,9 @@ function populateCard(){
         }
         contentStartedInput.addEventListener(`click`, updateStartedStatus);
 
-
-
         //populate container cleared
         let contentClearedDiv = document.createElement(`div`);
+        contentClearedDiv.className = `checkbox`;
         let contentClearedLabel = document.createElement(`label`);
         contentClearedLabel.for = `clear`;
         contentClearedLabel.textContent = `Cleared: `
@@ -111,7 +143,6 @@ function populateCard(){
         remove.addEventListener(`click`, deleteCard);
         removeButtonDiv.appendChild(remove);
 
-
         //attach contents to container
         container.appendChild(contentTitleDiv);
         container.appendChild(contentHoursDiv);
@@ -124,23 +155,22 @@ function populateCard(){
     }
 }
 
+//removeCard(parent) removes all the elements on the webpage to redraw the array
 function removeCard(parent){
     while (parent.firstChild){
         parent.removeChild(parent.firstChild)
     }
 }
 
-//populate the TOC
+//populate the TOC. Maybe I can add an alphabetize and event listener to highlight cards on right
 function populateTOC(){
     removeCard(document.querySelector(`.TOC`));
-     let container;
+    let container;
     for(let i = 0; i < myLibrary.length; i++){
         container = document.createElement(`div`);
         container.className = `TOC-container`;
         container.id = `toc-${i+1}`;
-        const content = document.createTextNode(
-            `${i+1}: ${myLibrary[i].title}`
-        );
+        const content = document.createTextNode(`${myLibrary[i].title}`);
 
         //attach contents to container 
         container.appendChild(content);
@@ -148,11 +178,9 @@ function populateTOC(){
         //draw TOC containers into the page
         document.querySelector(`.TOC`).appendChild(container);
     }
-
 }
 
-
-
+//updateStartedStatus() if you check the box, then it updates the array.
 function updateStartedStatus(){
     if(this.checked){
         let buttonParentID = this.parentElement.parentElement.id-1;
@@ -167,6 +195,8 @@ function updateStartedStatus(){
         console.table(myLibrary);
     }
 }
+
+//updateClearedStatus() if you check the box, then it updates the array.
 function updateClearedStatus(){
     if(this.checked){
         let buttonParentID = this.parentElement.parentElement.id-1;
@@ -181,9 +211,17 @@ function updateClearedStatus(){
         console.table(myLibrary);
     }
 }
+
+//deleteCard() deletes the card and updates the array
 function deleteCard(){
-    let buttonParentID = this.parentElement.id;
+    let buttonParentID = this.parentElement.parentElement.id;
     myLibrary.splice(buttonParentID-1, 1);
+    saveArray();
     populateCard();
     populateTOC();
+}
+
+//sortArray() sorts the TOC and hopefully make it easier to find cards
+function sortArray(){
+    myLibrary.sort((a,b) => a.title.localeCompare(b.title));
 }
