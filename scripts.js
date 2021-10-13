@@ -45,12 +45,18 @@ const submit = document.querySelector(`#submit`);
 submit.addEventListener(`click`, addGameToLibrary);
 
 function addGameToLibrary(){
+    let titleArray = myLibrary.map(x => x.title);
     //prevents creation of incomplete games
     if(document.getElementById(`title`).value == ""){
         console.log('what');
         return;
     }
-
+    if(titleArray.indexOf(document.getElementById(`title`).value) !== -1){
+        console.log(`match`);
+        matchedEdit(document.getElementById(`title`).value);
+        return;
+    }
+    else{
     //creates values for the constructor
     let title = document.getElementById(`title`).value;
     let hours = document.getElementById(`hours`).value;
@@ -79,6 +85,30 @@ function addGameToLibrary(){
 
     //save submission to local storage
     saveArray();
+    }
+}
+
+function matchedEdit(title){
+    let titleArray = myLibrary.map(x => x.title);
+    let index = titleArray.findIndex(x => x === title);
+    console.log(index);
+    myLibrary[index].hours = document.getElementById(`hours`).value;
+
+    if(document.getElementById(`wish`).checked){
+        myLibrary[index].wish = 'Started game.';
+    }
+    else{
+        myLibrary[index].wish = `Have not started.`;
+    }
+    if(document.getElementById(`clear-initial`).checked){
+        myLibrary[index].clear = `Yes.`;
+    }
+    else{
+        myLibrary[index].clear = `No.`;
+    }
+    //populate array to website
+    populateCard();
+    populateTOC();
 }
 
 //post array into table
@@ -139,17 +169,26 @@ function populateCard(){
         let removeButtonDiv = document.createElement(`div`);
         let remove = document.createElement(`button`);
         remove.id = `remove`;
-        remove.textContent = `remove`;
+        remove.textContent = `Remove`;
         remove.addEventListener(`click`, deleteCard);
         removeButtonDiv.appendChild(remove);
+        
+        //create an edit button in each container
+        let editButtonDiv = document.createElement(`div`);
+        let edit = document.createElement(`button`);
+        edit.id = `edit`;
+        edit.textContent = `Edit`;
+        edit.addEventListener(`click`, editCard);
+        editButtonDiv.appendChild(edit);
 
         //attach contents to container
         container.appendChild(contentTitleDiv);
         container.appendChild(contentHoursDiv);
         container.appendChild(contentStartedDiv);
         container.appendChild(contentClearedDiv);
+        container.appendChild(editButtonDiv);
         container.appendChild(removeButtonDiv);
-        
+
         //draw the containers into the page
         document.querySelector(`.display-game-cards`).appendChild(container);
     }
@@ -214,11 +253,31 @@ function updateClearedStatus(){
 
 //deleteCard() deletes the card and updates the array
 function deleteCard(){
-    let buttonParentID = this.parentElement.parentElement.id;
-    myLibrary.splice(buttonParentID-1, 1);
+    let buttonParentID = this.parentElement.parentElement.id - 1;
+    myLibrary.splice(buttonParentID, 1);
     saveArray();
     populateCard();
     populateTOC();
+}
+
+//editCard() throws all values in array back into add game section. Submit updates cards
+function editCard(){
+    let buttonParentID = this.parentElement.parentElement.id - 1;
+    document.getElementById(`title`).value = myLibrary[buttonParentID].title;
+    document.getElementById(`hours`).value = myLibrary[buttonParentID].hours;
+
+    if(myLibrary[buttonParentID].wish == 'Started game.'){
+        document.getElementById(`wish`).checked = true;
+    }
+    else{
+        document.getElementById(`wish`).checked = false;
+    }
+    if(myLibrary[buttonParentID].clear == `Yes.`){
+        document.getElementById(`clear-initial`).checked = true;
+    }
+    else{
+        document.getElementById(`clear-initial`).checked = false;
+    }
 }
 
 //sortArray() sorts the TOC and hopefully make it easier to find cards
