@@ -7,7 +7,9 @@
     <title>Library by TYLPHE</title>
     <script src="scripts.js" defer></script>
     <link rel="stylesheet" href="index.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet"> 
 </head>
 <body>
     <header>
@@ -25,19 +27,19 @@
                     <label for="title">Game title:</label>
                     <input type="text" id="title" required><br>
         
-                    <label for="hours">Hours played:</label>
+                    <label for="hours">Hours played: </label>
                     <input type="number" id="hours" required><br>
                     <div class="checkbox">
-                        <label for="wish">Started game?:</label>
-                        <input type="checkbox" name="wish" id="wish">
+                        <label for="add-wish">Started game: </label>
+                        <input type="checkbox" name="add-wish" id="add-wish">
                     </div>
                     <div class="checkbox">
-                        <label for="clear">Game cleared?:</label>
-                        <input type="checkbox" name="clear" id="clear-initial">
+                        <label for="add-clear">Game cleared: </label>
+                        <input type="checkbox" name="add-clear" id="add-clear">
                     </div>
                     <button id="submit">Submit</button>
                 </div>
-                <div class="TOC-title">Game list</div>
+                <div class="TOC-title">Game List</div>
                 <div class="TOC"></div>
             </div>
             <div class="display-column">
@@ -46,8 +48,6 @@
             </div> 
         </div>
     </div>
-    <footer>
-        footer
-    </footer>
+    <footer></footer>
 </body>
 </html>

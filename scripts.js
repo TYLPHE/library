@@ -24,10 +24,15 @@ function loadArray(){
     }
     else if(localStorage.getItem(`user-TYLPHE`) == null){
         myLibrary = [];
-        myLibrary[0] = new game(`Diablo II: Resurrected`, `50`, `Started game.`, `Yes.`);
-        myLibrary[1] = new game(`Monster Hunter Rise`, `350`, `Started game.`, `Yes.`);
+        myLibrary[0] = new game(`Diablo II: Resurrected`, `250`, `Started game.`, `Yes.`);
+        myLibrary[1] = new game(`Monster Hunter Rise`, `500`, `Started game.`, `Yes.`);
         myLibrary[2] = new game(`DJMAX Respect V`, `75`, `Started game.`, `No.`);
         myLibrary[3] = new game(`Metroid Dread`, `0`, `Have not started.`, `No.`);
+        myLibrary[4] = new game(`Ori and the Blind Forest`, `100`, `Started game.`, `Yes.`);
+        myLibrary[5] = new game(`Monster Hunter World`, `1200`, `Started game.`, `Yes.`);
+        myLibrary[6] = new game(`Metal Gear Solid 3`, `50`, `Started game.`, `Yes.`);
+        myLibrary[7] = new game(`Half-Life 2`, `50`, `Started game.`, `Yes.`);
+        
     }
     else{
         return console.log(`Error with loadArray()`)
@@ -54,53 +59,59 @@ function addGameToLibrary(){
     if(titleArray.indexOf(document.getElementById(`title`).value) !== -1){
         console.log(`match`);
         matchedEdit(document.getElementById(`title`).value);
+        saveArray();
+        clearInputs();
         return;
     }
     else{
-    //creates values for the constructor
-    let title = document.getElementById(`title`).value;
-    let hours = document.getElementById(`hours`).value;
-    if(document.getElementById(`wish`).checked){
-        wish = 'Started game.';
-    }
-    else{
-        wish = `Have not started.`;
-    }
-    if(document.getElementById(`clear-initial`).checked){
-        clear = `Yes.`;
-    }
-    else{
-        clear = `No.`;
-    }
+        //creates values for the constructor
+        let title = document.getElementById(`title`).value;
+        let hours = document.getElementById(`hours`).value;
+        if(document.getElementById(`add-wish`).checked){
+            wish = 'Started game.';
+        }
+        else{
+            wish = `Have not started.`;
+        }
+        if(document.getElementById(`add-clear`).checked){
+            clear = `Yes.`;
+        }
+        else{
+            clear = `No.`;
+        }
 
-    //push the form to the array
-    myLibrary.push(new game(title, hours, wish, clear));
+        //push the form to the array
+        myLibrary.push(new game(title, hours, wish, clear));
 
-    //populate array to website
-    populateCard();
-    populateTOC();
+        //populate array to website
+        populateCard();
+        populateTOC();
 
-    //debug
-    console.table(myLibrary);
+        //debug
+        console.table(myLibrary);
 
-    //save submission to local storage
-    saveArray();
+        //save submission to local storage
+        saveArray();
+
+        //clear all inputs for extra feedback
+        clearInputs();
     }
 }
 
+//after the match is 
 function matchedEdit(title){
     let titleArray = myLibrary.map(x => x.title);
     let index = titleArray.findIndex(x => x === title);
     console.log(index);
     myLibrary[index].hours = document.getElementById(`hours`).value;
 
-    if(document.getElementById(`wish`).checked){
+    if(document.getElementById(`add-wish`).checked){
         myLibrary[index].wish = 'Started game.';
     }
     else{
         myLibrary[index].wish = `Have not started.`;
     }
-    if(document.getElementById(`clear-initial`).checked){
+    if(document.getElementById(`add-clear`).checked){
         myLibrary[index].clear = `Yes.`;
     }
     else{
@@ -109,6 +120,13 @@ function matchedEdit(title){
     //populate array to website
     populateCard();
     populateTOC();
+}
+
+function clearInputs(){
+    document.getElementById(`title`).value = ``;
+    document.getElementById(`hours`).value = ``;
+    document.getElementById(`add-wish`).checked = false;
+    document.getElementById(`add-clear`).checked = false;
 }
 
 //post array into table
@@ -130,19 +148,24 @@ function populateCard(){
 
         //populate container hours
         let contentHoursDiv = document.createElement(`div`);
-        let contentHours = document.createTextNode(`Hours: ${myLibrary[i].hours}`);
-        contentHoursDiv.appendChild(contentHours);
+        contentHoursDiv.className = `hours-flex`;
+        let contentHoursVariable = document.createElement(`div`);
+        contentHoursVariable.textContent= myLibrary[i].hours;
+        let contentHoursLabel = document.createElement(`div`);
+        contentHoursLabel.textContent= `Hours: `;
+        contentHoursDiv.appendChild(contentHoursLabel);
+        contentHoursDiv.appendChild(contentHoursVariable);
 
         //populate container started
         let contentStartedDiv = document.createElement(`div`);
         contentStartedDiv.className = `checkbox`;
         let contentStartedLabel = document.createElement(`label`);
-        contentStartedLabel.for = `wish`;
+        contentStartedLabel.setAttribute(`for`, `wish${i}`);
         contentStartedLabel.textContent = `Started: `;
         let contentStartedInput = document.createElement(`input`);
         contentStartedInput.type = `checkbox`;
-        contentStartedInput.name = `wish`;
-        contentStartedInput.id = `wish`;
+        contentStartedInput.name = `wish${i}`;
+        contentStartedInput.id = `wish${i}`;
         contentStartedDiv.appendChild(contentStartedLabel);contentStartedDiv.appendChild(contentStartedInput);
         if(myLibrary[i].wish == `Started game.`){
             contentStartedInput.checked = true;
@@ -153,12 +176,12 @@ function populateCard(){
         let contentClearedDiv = document.createElement(`div`);
         contentClearedDiv.className = `checkbox`;
         let contentClearedLabel = document.createElement(`label`);
-        contentClearedLabel.for = `clear`;
+        contentClearedLabel.setAttribute(`for`, `clear${i}`);
         contentClearedLabel.textContent = `Cleared: `
         let contentClearedInput = document.createElement(`input`);
         contentClearedInput.type = `checkbox`;
-        contentClearedInput.name = `clear`;
-        contentClearedInput.id = `clear`;
+        contentClearedInput.name = `clear${i}`;
+        contentClearedInput.id = `clear${i}`;
         contentClearedDiv.appendChild(contentClearedLabel);contentClearedDiv.appendChild(contentClearedInput);
         if(myLibrary[i].clear == `Yes.`){
             contentClearedInput.checked = true;
@@ -181,13 +204,18 @@ function populateCard(){
         edit.addEventListener(`click`, editCard);
         editButtonDiv.appendChild(edit);
 
+        //create a div and attach buttons so they sit horizontally in a flex
+        let editRemoveDiv = document.createElement(`div`);
+        editRemoveDiv.className = `edit-remove`;
+        editRemoveDiv.appendChild(editButtonDiv);
+        editRemoveDiv.appendChild(removeButtonDiv);
+
         //attach contents to container
         container.appendChild(contentTitleDiv);
         container.appendChild(contentHoursDiv);
         container.appendChild(contentStartedDiv);
         container.appendChild(contentClearedDiv);
-        container.appendChild(editButtonDiv);
-        container.appendChild(removeButtonDiv);
+        container.appendChild(editRemoveDiv);
 
         //draw the containers into the page
         document.querySelector(`.display-game-cards`).appendChild(container);
@@ -217,6 +245,7 @@ function populateTOC(){
         //draw TOC containers into the page
         document.querySelector(`.TOC`).appendChild(container);
     }
+    hoverHighlight();
 }
 
 //updateStartedStatus() if you check the box, then it updates the array.
@@ -253,7 +282,7 @@ function updateClearedStatus(){
 
 //deleteCard() deletes the card and updates the array
 function deleteCard(){
-    let buttonParentID = this.parentElement.parentElement.id - 1;
+    let buttonParentID = this.parentElement.parentElement.parentElement.id - 1;
     myLibrary.splice(buttonParentID, 1);
     saveArray();
     populateCard();
@@ -262,25 +291,40 @@ function deleteCard(){
 
 //editCard() throws all values in array back into add game section. Submit updates cards
 function editCard(){
-    let buttonParentID = this.parentElement.parentElement.id - 1;
+    let buttonParentID = this.parentElement.parentElement.parentElement.id - 1;
     document.getElementById(`title`).value = myLibrary[buttonParentID].title;
     document.getElementById(`hours`).value = myLibrary[buttonParentID].hours;
 
     if(myLibrary[buttonParentID].wish == 'Started game.'){
-        document.getElementById(`wish`).checked = true;
+        document.getElementById(`add-wish`).checked = true;
     }
     else{
-        document.getElementById(`wish`).checked = false;
+        document.getElementById(`add-wish`).checked = false;
     }
     if(myLibrary[buttonParentID].clear == `Yes.`){
-        document.getElementById(`clear-initial`).checked = true;
+        document.getElementById(`add-clear`).checked = true;
     }
     else{
-        document.getElementById(`clear-initial`).checked = false;
+        document.getElementById(`add-clear`).checked = false;
     }
 }
 
 //sortArray() sorts the TOC and hopefully make it easier to find cards
 function sortArray(){
     myLibrary.sort((a,b) => a.title.localeCompare(b.title));
+}
+
+//hoverHighlight() hover over the TOC item to highlight the corresponding card
+function hoverHighlight(){
+    let classNames = document.getElementsByClassName(`TOC-container`);
+    for(i = 0; i < classNames.length; i++){
+        classNames[i].addEventListener(`mouseover`, x => {
+            document.getElementById(x.target.id.substring(4)).classList.add(`TOC-hover`);
+        })
+    }
+    for(i = 0; i < classNames.length; i++){
+        classNames[i].addEventListener(`mouseout`, x => {
+            document.getElementById(x.target.id.substring(4)).classList.remove(`TOC-hover`);
+        })
+    }
 }

@@ -1,5 +1,7 @@
 *{
-    border: 1px solid black;
+    /* border: 1px solid black; */
+    color: #dad5cf;
+    font-family: 'Montserrat', sans-serif;
 }
 body{
     font-size: 24px;
@@ -7,12 +9,14 @@ body{
     display:flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: #1a354f;
 }
 header{
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: bold;
+    background-color: #171a21;
 }
 .repo{
     display:flex;
@@ -39,33 +43,72 @@ header{
     flex-direction: column;
     margin: 5px;
     text-align: center;
+    padding: 5px;
+    gap: 5px;
 }
 .add-game-title{
+    font-size: 30px;
     text-align: center;
     font-weight: bold;
+    background-color: #1c3a66;
+    box-shadow: 2px 2px 20px black;
+    z-index: 1;
 }
 #submit{
-    height: 50px;
     font-weight: bold;
-    font-size: 30px;
-    margin: 10px;
+    font-size: 20px;
+    padding: 5px;
+    background-color: #5c7e10;
+    border: 0;
+}
+#edit{
+    font-weight: bold;
+    font-size: 20px;
+    background-color: #5c7e10;
+    padding: 5px;
+    border: 0;
+}
+#remove{
+    font-weight: bold;
+    font-size: 20px;
+    background-color: #5c7e10;
+    padding: 5px;
+    border: 0;
+}
+#submit:hover{
+    cursor: pointer;
+    color: white;
+}
+#edit:hover{
+    cursor: pointer;
+    color: white;
+}
+#remove:hover{
+    cursor: pointer;
+    color: white;
 }
 .TOC-column{
     display:flex;
     flex-direction: column;
     flex:1;
+    background-color: #12313f;
+    box-shadow: 2px 2px 50px black;
+
 }
 .display-column{
     display:flex;
     flex-direction: column;
     flex:4;
+    box-shadow: 2px 2px 10px black;
 }
 .TOC-title{
+    font-size: 30px;
     font-weight: bold;
     display:flex;
     justify-content: center;
     align-items: center;
-    background-color: ;
+    background-color: #1c3a66;
+    box-shadow: 2px 2px 20px black;
 }
 .TOC{
     display: flex;
@@ -76,23 +119,35 @@ header{
 }
 .TOC-container{
     padding: 5px;
+    cursor: pointer;
+}
+.TOC-container:hover{
+    color: white;
 }
 .card-titlebar{
     display:flex;
     text-align: center;
     align-items: center;
     justify-content: center;
+    font-size: 30px;
     font-weight: bold;
+    background-color: #1c3a66;
+    box-shadow: 2px 2px 20px black;
 }
 .card-title{
     display:flex;
     text-align: center;
     align-items: center;
     justify-content: center;
+    font-size: x-large;
     font-weight: bold;
     padding: 10px;
     height:150px;
     overflow: auto;
+    background-color: #00000031;
+}
+.card-title:hover{
+    color:white;
 }
 .display-game-cards{
     display: flex;
@@ -107,13 +162,60 @@ header{
     justify-content: center;
     width: 250px;
     padding: 20px;
+    gap:5px;
+    background-color: #1e113025;
+    box-shadow: 2px 2px 10px black;
+}
+.card-container:hover{
+    background-color: #85858549;
 }
 .checkbox{
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    align-self: center;
+    user-select: none;
+    width: 90%;
+}
+.checkbox:hover{
+    background-color: #00000031;
 }
 input{
     height: 30px;
     font-size: large;
     text-align: center;
+    color: black;
+    font-weight: bold;
+}
+.edit-remove{
+    display: flex;
+    justify-content: space-around;
+    align-self: center;
+    width: 90%;
+}
+.hours-flex{
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    align-self: center;
+}
+.hours-flex:hover{
+    background-color: #00000031;
+}
+label{
+    cursor: pointer;
+}
+label:hover{
+    color: white;
+}
+input[type="checkbox"]{
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+}
+.TOC-hover{
+    background-color: #85858549;
+}
+footer{
+    background-color: #171a21;
+    height: 24px;
 }
